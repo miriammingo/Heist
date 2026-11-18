@@ -287,6 +287,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &542603196
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 542603197}
+  m_Layer: 0
+  m_Name: PatrolPointD
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &542603197
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 542603196}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -10, y: -5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,7 +434,7 @@ GameObject:
   - component: {fileID: 680650218}
   - component: {fileID: 680650217}
   m_Layer: 0
-  m_Name: CentroH3
+  m_Name: InnerWallH3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -530,6 +561,71 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &718123171
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 320590047531457050, guid: c25446e1cc983b6429fefa5219f820b5, type: 3}
+      propertyPath: 'patrolPoints.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1901333258}
+    - target: {fileID: 320590047531457050, guid: c25446e1cc983b6429fefa5219f820b5, type: 3}
+      propertyPath: 'patrolPoints.Array.data[1]'
+      value: 
+      objectReference: {fileID: 542603197}
+    - target: {fileID: 5391338753700941910, guid: c25446e1cc983b6429fefa5219f820b5, type: 3}
+      propertyPath: m_Name
+      value: Guard2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8401589044712081993, guid: c25446e1cc983b6429fefa5219f820b5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8401589044712081993, guid: c25446e1cc983b6429fefa5219f820b5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8401589044712081993, guid: c25446e1cc983b6429fefa5219f820b5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8401589044712081993, guid: c25446e1cc983b6429fefa5219f820b5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8401589044712081993, guid: c25446e1cc983b6429fefa5219f820b5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8401589044712081993, guid: c25446e1cc983b6429fefa5219f820b5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8401589044712081993, guid: c25446e1cc983b6429fefa5219f820b5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8401589044712081993, guid: c25446e1cc983b6429fefa5219f820b5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8401589044712081993, guid: c25446e1cc983b6429fefa5219f820b5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8401589044712081993, guid: c25446e1cc983b6429fefa5219f820b5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c25446e1cc983b6429fefa5219f820b5, type: 3}
 --- !u!1 &970198211
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,7 +638,7 @@ GameObject:
   - component: {fileID: 970198213}
   - component: {fileID: 970198212}
   m_Layer: 0
-  m_Name: ParedAbajo
+  m_Name: WallBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -681,7 +777,7 @@ GameObject:
   - component: {fileID: 1135371117}
   - component: {fileID: 1135371116}
   m_Layer: 0
-  m_Name: CentroH2
+  m_Name: InnerWallH2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -820,7 +916,7 @@ GameObject:
   - component: {fileID: 1143676178}
   - component: {fileID: 1143676177}
   m_Layer: 0
-  m_Name: ParedArriba
+  m_Name: WallTop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -959,7 +1055,7 @@ GameObject:
   - component: {fileID: 1451862759}
   - component: {fileID: 1451862758}
   m_Layer: 0
-  m_Name: ParedDerecha
+  m_Name: WallRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1098,7 +1194,7 @@ GameObject:
   - component: {fileID: 1459026677}
   - component: {fileID: 1459026676}
   m_Layer: 0
-  m_Name: CentroV2
+  m_Name: InnerWallV2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1237,7 +1333,7 @@ GameObject:
   - component: {fileID: 1477727314}
   - component: {fileID: 1477727313}
   m_Layer: 0
-  m_Name: ParedIzquierda
+  m_Name: WallLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1406,7 +1502,7 @@ GameObject:
   - component: {fileID: 1609452020}
   - component: {fileID: 1609452019}
   m_Layer: 0
-  m_Name: Suelo
+  m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1499,7 +1595,7 @@ GameObject:
   - component: {fileID: 1900687430}
   - component: {fileID: 1900687429}
   m_Layer: 0
-  m_Name: CentroH1
+  m_Name: InnerWallH1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1626,6 +1722,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1901333257
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1901333258}
+  m_Layer: 0
+  m_Name: PatrolPointC
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1901333258
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1901333257}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 10, y: -5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1911553923
 GameObject:
   m_ObjectHideFlags: 0
@@ -1638,7 +1765,7 @@ GameObject:
   - component: {fileID: 1911553925}
   - component: {fileID: 1911553924}
   m_Layer: 0
-  m_Name: CentroV3
+  m_Name: InnerWallV3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1777,7 +1904,7 @@ GameObject:
   - component: {fileID: 1986100351}
   - component: {fileID: 1986100350}
   m_Layer: 0
-  m_Name: CentroV1
+  m_Name: InnerWallV1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1989,3 +2116,6 @@ SceneRoots:
   - {fileID: 3620062221675345652}
   - {fileID: 530402760}
   - {fileID: 1539351469}
+  - {fileID: 718123171}
+  - {fileID: 1901333258}
+  - {fileID: 542603197}

@@ -1,24 +1,24 @@
 using UnityEngine;
 
 /// <summary>
-/// Hace que el guardia vaya de un punto a otro en bucle: A -> B -> A -> B...
-/// Va en el objeto Guard, que necesita un Rigidbody2D (Body Type = Kinematic).
+/// Moves the guard between patrol points in a loop: A -> B -> A -> B...
+/// Attach it to the Guard object, which needs a Rigidbody2D (Body Type = Kinematic).
 /// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
 public class GuardPatrol : MonoBehaviour
 {
-    [Header("Ruta de patrulla")]
-    [Tooltip("Puntos por los que pasa el guardia, en orden. Arrastra aquí PatrolPointA y PatrolPointB.")]
+    [Header("Patrol route")]
+    [Tooltip("Points the guard walks through, in order. Drag PatrolPointA and PatrolPointB here.")]
     [SerializeField] private Transform[] patrolPoints;
 
-    [Header("Movimiento")]
-    [Tooltip("Velocidad del guardia (unidades por segundo).")]
+    [Header("Movement")]
+    [Tooltip("Guard speed (units per second).")]
     [SerializeField] private float speed = 2f;
 
-    [Tooltip("Segundos que se queda quieto en cada punto antes de seguir.")]
+    [Tooltip("Seconds the guard waits at each point before moving on.")]
     [SerializeField] private float waitTime = 1f;
 
-    [Tooltip("A qué distancia del punto consideramos que ya ha llegado.")]
+    [Tooltip("Distance at which the guard counts as having reached a point.")]
     [SerializeField] private float arriveDistance = 0.05f;
 
     private Rigidbody2D rb;
@@ -30,7 +30,7 @@ public class GuardPatrol : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Las físicas se mueven en FixedUpdate (no en Update).
+    // Physics movement goes in FixedUpdate (not Update).
     private void FixedUpdate()
     {
         if (patrolPoints == null || patrolPoints.Length == 0)
@@ -38,14 +38,14 @@ public class GuardPatrol : MonoBehaviour
             return;
         }
 
-        // 1. Si está esperando en un punto, descuenta tiempo y no se mueve.
+        // 1. If the guard is waiting at a point, count down and stay still.
         if (waitTimer > 0f)
         {
             waitTimer -= Time.fixedDeltaTime;
             return;
         }
 
-        // 2. Si alguien dejó un hueco vacío en la lista, lo saltamos.
+        // 2. Skip empty slots in the list.
         Transform point = patrolPoints[currentPoint];
         if (point == null)
         {
@@ -53,12 +53,12 @@ public class GuardPatrol : MonoBehaviour
             return;
         }
 
-        // 3. Da un pasito hacia el punto actual.
+        // 3. Take a small step towards the current point.
         Vector2 target = point.position;
         Vector2 newPosition = Vector2.MoveTowards(rb.position, target, speed * Time.fixedDeltaTime);
         rb.MovePosition(newPosition);
 
-        // 4. Si ya ha llegado, espera un poco y pasa al siguiente punto.
+        // 4. When the point is reached, wait a moment and target the next one.
         if (Vector2.Distance(newPosition, target) <= arriveDistance)
         {
             GoToNextPoint();
@@ -68,11 +68,11 @@ public class GuardPatrol : MonoBehaviour
 
     private void GoToNextPoint()
     {
-        // El % hace que después del último punto vuelva al primero (bucle).
+        // The % wraps around to the first point after the last one (loop).
         currentPoint = (currentPoint + 1) % patrolPoints.Length;
     }
 
-    // Dibuja la ruta en amarillo en la ventana Scene (no se ve en el juego).
+    // Draws the route in yellow in the Scene view (not visible in the game).
     private void OnDrawGizmos()
     {
         if (patrolPoints == null)

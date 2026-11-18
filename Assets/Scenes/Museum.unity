@@ -297,7 +297,7 @@ GameObject:
   m_Component:
   - component: {fileID: 542603197}
   m_Layer: 0
-  m_Name: PatroPointD
+  m_Name: PatrolPointD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -638,7 +638,7 @@ GameObject:
   - component: {fileID: 970198213}
   - component: {fileID: 970198212}
   m_Layer: 0
-  m_Name: WallButtom
+  m_Name: WallBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

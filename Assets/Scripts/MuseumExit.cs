@@ -93,6 +93,8 @@ public class MuseumExit : MonoBehaviour
     {
         hasWon = true;
 
+        HeistSessionManager.Instance?.MarkEscaped();
+
         Debug.Log("HEIST COMPLETE!");
 
         if (hud != null)

@@ -40,7 +40,7 @@ public class PatrolState : IGuardState
             return;
         }
 
-        bool arrived = guard.MoveTowards(point.position, guard.PatrolSpeed);
+        bool arrived = guard.MoveTo(point.position, guard.PatrolSpeed);
         if (arrived)
         {
             GoToNextPoint();

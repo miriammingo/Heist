@@ -1,12 +1,15 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
 /// The guard's brain. It holds the CURRENT STATE and lets it decide what to do.
-/// It also gives the states the basic actions: move towards a point and turn.
+/// It also gives the states the basic actions: move to a point (going around walls with A*) and turn.
 /// </summary>
 [RequireComponent(typeof(Rigidbody2D), typeof(GuardVision))]
 public class GuardAI : MonoBehaviour
 {
+    private const float RepathInterval = 0.3f;
+
     [Header("Patrol route")]
     [Tooltip("Points the guard walks through, in order.")]
     [SerializeField] private Transform[] patrolPoints;
@@ -23,7 +26,16 @@ public class GuardAI : MonoBehaviour
     [Tooltip("Distance at which the guard counts as having reached a point.")]
     [SerializeField] private float arriveDistance = 0.05f;
 
+    [Tooltip("Half the size of the guard. Used to check if it fits through a gap.")]
+    [SerializeField] private float bodyRadius = 0.45f;
+
+    private readonly List<Vector2> path = new List<Vector2>();
+    private readonly List<RaycastHit2D> hits = new List<RaycastHit2D>();
+    private ContactFilter2D solidOnly;
     private Rigidbody2D rb;
+    private NavGrid grid;
+    private Vector2 pathDestination;
+    private float repathTimer;
 
     public Transform[] PatrolPoints => patrolPoints;
     public float WaitTime => waitTime;
@@ -35,6 +47,13 @@ public class GuardAI : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         Vision = GetComponent<GuardVision>();
+        solidOnly = new ContactFilter2D { useTriggers = false };
+
+        grid = FindAnyObjectByType<NavGrid>();
+        if (grid == null)
+        {
+            Debug.LogWarning("GuardAI: there is no NavGrid in the scene, guards will walk in straight lines.");
+        }
     }
 
     private void Start()
@@ -56,7 +75,54 @@ public class GuardAI : MonoBehaviour
         CurrentState.Enter();
     }
 
-    /// <summary>Takes one small step towards the target. Returns true when it has arrived.</summary>
+    /// <summary>
+    /// Walks towards a destination, going through doors if there are walls in the way.
+    /// Returns true when it has arrived (or got as close as possible).
+    /// </summary>
+    public bool MoveTo(Vector2 destination, float speed)
+    {
+        // 1. Nothing in the way (or no grid): walk straight there.
+        if (grid == null || HasClearPath(rb.position, destination))
+        {
+            path.Clear();
+            return MoveTowards(destination, speed);
+        }
+
+        // 2. Walls in the way: ask A* for a path (again if the destination has moved).
+        repathTimer -= Time.fixedDeltaTime;
+        bool destinationMoved = Vector2.Distance(destination, pathDestination) > grid.CellSize;
+        if (path.Count == 0 || (destinationMoved && repathTimer <= 0f))
+        {
+            path.Clear();
+            path.AddRange(AStar.FindPath(grid, rb.position, destination));
+            pathDestination = destination;
+            repathTimer = RepathInterval;
+            if (path.Count == 0)
+            {
+                return true; // There is no way to get there: give up.
+            }
+        }
+
+        // 3. Skip path points we can already reach in a straight line (smoother walking).
+        while (path.Count > 1 && HasClearPath(rb.position, path[1]))
+        {
+            path.RemoveAt(0);
+        }
+
+        // 4. Walk to the next point of the path.
+        if (MoveTowards(path[0], speed))
+        {
+            path.RemoveAt(0);
+            if (path.Count == 0)
+            {
+                return true; // End of the path: as close as we can get.
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>Takes one small step in a straight line. Returns true when it has arrived.</summary>
     public bool MoveTowards(Vector2 target, float speed)
     {
         Vector2 newPosition = Vector2.MoveTowards(rb.position, target, speed * Time.fixedDeltaTime);
@@ -76,6 +142,28 @@ public class GuardAI : MonoBehaviour
         float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
         float newAngle = Mathf.MoveTowardsAngle(rb.rotation, targetAngle, turnSpeed * Time.fixedDeltaTime);
         rb.MoveRotation(newAngle);
+    }
+
+    /// <summary>Can the guard's whole body slide from one point to another without touching a wall?</summary>
+    public bool HasClearPath(Vector2 from, Vector2 to)
+    {
+        Vector2 offset = to - from;
+        float distance = offset.magnitude;
+        if (distance < 0.001f)
+        {
+            return true;
+        }
+
+        int count = Physics2D.CircleCast(from, bodyRadius, offset / distance, solidOnly, hits, distance);
+        for (int i = 0; i < count; i++)
+        {
+            if (GuardVision.IsWall(hits[i].collider))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /// <summary>Index of the patrol point closest to the guard (to resume the route after a chase).</summary>
@@ -101,29 +189,36 @@ public class GuardAI : MonoBehaviour
         return closest;
     }
 
-    // Draws the patrol route in yellow in the Scene view.
     private void OnDrawGizmos()
     {
-        if (patrolPoints == null)
+        // Patrol route in yellow.
+        if (patrolPoints != null)
         {
-            return;
+            Gizmos.color = Color.yellow;
+            for (int i = 0; i < patrolPoints.Length; i++)
+            {
+                Transform from = patrolPoints[i];
+                Transform to = patrolPoints[(i + 1) % patrolPoints.Length];
+                if (from == null)
+                {
+                    continue;
+                }
+
+                Gizmos.DrawWireSphere(from.position, 0.3f);
+                if (to != null)
+                {
+                    Gizmos.DrawLine(from.position, to.position);
+                }
+            }
         }
 
-        Gizmos.color = Color.yellow;
-        for (int i = 0; i < patrolPoints.Length; i++)
+        // Current A* path in green.
+        Gizmos.color = Color.green;
+        Vector3 previous = transform.position;
+        foreach (Vector2 point in path)
         {
-            Transform from = patrolPoints[i];
-            Transform to = patrolPoints[(i + 1) % patrolPoints.Length];
-            if (from == null)
-            {
-                continue;
-            }
-
-            Gizmos.DrawWireSphere(from.position, 0.3f);
-            if (to != null)
-            {
-                Gizmos.DrawLine(from.position, to.position);
-            }
+            Gizmos.DrawLine(previous, point);
+            previous = point;
         }
     }
 }

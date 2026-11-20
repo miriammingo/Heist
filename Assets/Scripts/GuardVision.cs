@@ -119,7 +119,7 @@ public class GuardVision : MonoBehaviour
 
     // Walls are solid colliders WITHOUT a Rigidbody2D.
     // The thief and the guards have a Rigidbody2D, so they don't block the view.
-    private static bool IsWall(Collider2D other)
+    public static bool IsWall(Collider2D other)
     {
         return !other.isTrigger && other.attachedRigidbody == null;
     }

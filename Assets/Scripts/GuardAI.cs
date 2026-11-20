@@ -49,6 +49,9 @@ public class GuardAI : MonoBehaviour
     public GuardVision Vision { get; private set; }
     public IGuardState CurrentState { get; private set; }
 
+    // Announced when a guard touches the thief (Observer pattern).
+    public static event System.Action ThiefCaught;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -71,6 +74,16 @@ public class GuardAI : MonoBehaviour
     {
         CurrentState?.Tick();
     }
+
+    // NEW: Unity calls this when the guard bumps into something. If it's the thief: caught!
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<PlayerMovement>() != null)
+        {
+            ThiefCaught?.Invoke();
+        }
+    }
+
 
     /// <summary>Leaves the current state and enters the new one.</summary>
     public void ChangeState(IGuardState newState)

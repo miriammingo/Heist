@@ -1019,3 +1019,5 @@ MonoBehaviour:
   interactionText: {fileID: 4693986499351216682}
   treasureCounter: {fileID: 6881474662791514647}
   winPanel: {fileID: 3993204848732804010}
+  resultTitle: {fileID: 720303195152515292}
+  resultSubtitle: {fileID: 4579675662968491346}

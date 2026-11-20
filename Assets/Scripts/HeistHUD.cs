@@ -8,6 +8,13 @@ public class HeistHUD : MonoBehaviour
     [SerializeField] private TMP_Text treasureCounter;
     [SerializeField] private GameObject winPanel;
 
+    // NEW: the texts of the result panel, so the same panel can also say "CAUGHT!".
+    [SerializeField] private TMP_Text resultTitle;
+    [SerializeField] private TMP_Text resultSubtitle;
+
+    // NEW: true while the win/lose panel is on screen.
+    public bool IsResultShown => winPanel != null && winPanel.activeSelf;
+
     private void Awake()
     {
         HideInteraction();
@@ -38,6 +45,27 @@ public class HeistHUD : MonoBehaviour
     public void ShowVictory()
     {
         HideInteraction();
+
+        if (winPanel != null)
+        {
+            winPanel.SetActive(true);
+        }
+    }
+
+    // NEW: fail state. Reuses the result panel with a different message.
+    public void ShowCaught()
+    {
+        HideInteraction();
+
+        if (resultTitle != null)
+        {
+            resultTitle.text = "CAUGHT!";
+        }
+
+        if (resultSubtitle != null)
+        {
+            resultSubtitle.text = "A guard got you. Try a different route!";
+        }
 
         if (winPanel != null)
         {

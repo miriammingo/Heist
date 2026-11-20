@@ -21,6 +21,17 @@ public class PatrolState : IGuardState
 
     public void Tick()
     {
+        // NEW: first of all, react to what the guard sees.
+        switch (guard.Vision.CurrentAwareness)
+        {
+            case Awareness.Spotted:
+                guard.ChangeState(new ChaseState(guard));
+                return;
+            case Awareness.Suspicious:
+                guard.ChangeState(new InvestigateState(guard, guard.Vision.ThiefPosition));
+                return;
+        }
+
         Transform[] points = guard.PatrolPoints;
         if (points == null || points.Length == 0)
         {

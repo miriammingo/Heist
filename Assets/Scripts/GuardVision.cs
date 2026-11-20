@@ -36,6 +36,18 @@ public class GuardVision : MonoBehaviour
     public Vector2 Facing => transform.up;
     public Awareness CurrentAwareness { get; private set; }
 
+
+    // Where the thief is right now.
+    public Vector2 ThiefPosition => thief != null ? (Vector2)thief.position : (Vector2)transform.position;
+
+    // NEW: during a chase the guard is looking right at the thief, so it only needs
+    // the thief to be in range with no wall in between (the angle doesn't matter).
+    public bool CanTrack(Vector2 target)
+    {
+        Vector2 toTarget = target - (Vector2)transform.position;
+        return toTarget.sqrMagnitude <= farRange * farRange && HasLineOfSight(target);
+    }
+
     private void Awake()
     {
         // Rays ignore triggers (treasures, exit), so those never block the view.

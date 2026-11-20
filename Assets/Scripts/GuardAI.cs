@@ -20,6 +20,10 @@ public class GuardAI : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float patrolSpeed = 2f;
 
+    // NEW: faster when something is going on. The thief (speed 5) can still outrun a chasing guard.
+    [SerializeField] private float investigateSpeed = 2.5f;
+    [SerializeField] private float chaseSpeed = 4f;
+
     [Tooltip("Degrees per second the guard turns.")]
     [SerializeField] private float turnSpeed = 360f;
 
@@ -40,6 +44,8 @@ public class GuardAI : MonoBehaviour
     public Transform[] PatrolPoints => patrolPoints;
     public float WaitTime => waitTime;
     public float PatrolSpeed => patrolSpeed;
+    public float InvestigateSpeed => investigateSpeed; // NEW
+    public float ChaseSpeed => chaseSpeed;             // NEW
     public GuardVision Vision { get; private set; }
     public IGuardState CurrentState { get; private set; }
 
@@ -142,6 +148,12 @@ public class GuardAI : MonoBehaviour
         float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
         float newAngle = Mathf.MoveTowardsAngle(rb.rotation, targetAngle, turnSpeed * Time.fixedDeltaTime);
         rb.MoveRotation(newAngle);
+    }
+
+    /// <summary>NEW: spins on the spot, as if looking around.</summary>
+    public void LookAround(float degreesPerSecond)
+    {
+        rb.MoveRotation(rb.rotation + degreesPerSecond * Time.fixedDeltaTime);
     }
 
     /// <summary>Can the guard's whole body slide from one point to another without touching a wall?</summary>

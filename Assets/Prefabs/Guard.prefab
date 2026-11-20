@@ -218,5 +218,8 @@ MonoBehaviour:
   patrolPoints: []
   waitTime: 1
   patrolSpeed: 2
+  investigateSpeed: 2.5
+  chaseSpeed: 3.5
   turnSpeed: 360
   arriveDistance: 0.05
+  bodyRadius: 0.45

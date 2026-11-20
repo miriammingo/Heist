@@ -1021,3 +1021,4 @@ MonoBehaviour:
   winPanel: {fileID: 3993204848732804010}
   resultTitle: {fileID: 720303195152515292}
   resultSubtitle: {fileID: 4579675662968491346}
+  resultButtonText: {fileID: 2969917328280739784}

@@ -36,9 +36,13 @@ public class GameOverManager : MonoBehaviour
         }
 
         isOver = true;
+
+        HeistSessionManager.Instance?.MarkCaught();
+
         Debug.Log("CAUGHT!");
         StopThief();
         StopGuards();
+
 
         if (hud != null)
         {

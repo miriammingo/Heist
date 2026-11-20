@@ -11,6 +11,7 @@ public class HeistHUD : MonoBehaviour
     // NEW: the texts of the result panel, so the same panel can also say "CAUGHT!".
     [SerializeField] private TMP_Text resultTitle;
     [SerializeField] private TMP_Text resultSubtitle;
+    [SerializeField] private TMP_Text resultButtonText;
 
     // NEW: true while the win/lose panel is on screen.
     public bool IsResultShown => winPanel != null && winPanel.activeSelf;
@@ -46,25 +47,52 @@ public class HeistHUD : MonoBehaviour
     {
         HideInteraction();
 
+        if (resultTitle != null)
+            resultTitle.text = "HEIST COMPLETE";
+
+        if (resultSubtitle != null)
+            resultSubtitle.text =
+                "You escaped with all the treasures!";
+
+        if (resultButtonText != null)
+            resultButtonText.text = "NEW HEIST";
+
         if (winPanel != null)
-        {
             winPanel.SetActive(true);
-        }
     }
 
+
     // NEW: fail state. Reuses the result panel with a different message.
+
     public void ShowCaught()
     {
         HideInteraction();
 
+        HeistSessionManager session =
+            HeistSessionManager.Instance;
+
+        bool finalAttempt =
+            session != null && session.IsLastAttempt;
+
         if (resultTitle != null)
         {
-            resultTitle.text = "CAUGHT!";
+            resultTitle.text = finalAttempt
+                ? "HEIST FAILED!"
+                : "CAUGHT!";
         }
 
         if (resultSubtitle != null)
         {
-            resultSubtitle.text = "A guard got you. Try a different route!";
+            resultSubtitle.text = finalAttempt
+                ? "No attempts left. The museum wins."
+                : "All treasures have been confiscated. Try again!";
+        }
+
+        if (resultButtonText != null)
+        {
+            resultButtonText.text = finalAttempt
+                ? "NEW HEIST"
+                : "TRY AGAIN";
         }
 
         if (winPanel != null)
@@ -73,11 +101,26 @@ public class HeistHUD : MonoBehaviour
         }
     }
 
+
     public void RestartGame()
     {
-        SceneManager.LoadScene(
-            SceneManager.GetActiveScene().name
-        );
+        HeistSessionManager session =
+            HeistSessionManager.Instance;
+
+        if (session != null)
+        {
+            session.ContinueAfterResult();
+        }
+        else
+        {
+            // Fallback for test scenes without the manager.
+            Time.timeScale = 1f;
+
+            SceneManager.LoadScene(
+                SceneManager.GetActiveScene().name
+            );
+        }
     }
+
 }
 

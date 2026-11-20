@@ -156,6 +156,23 @@ public class GuardAI : MonoBehaviour
         rb.MoveRotation(rb.rotation + degreesPerSecond * Time.fixedDeltaTime);
     }
 
+
+    /// <summary>NEW: a random spot near a point where the guard can stand (not inside a wall).</summary>
+    public Vector2 GetRandomPointNear(Vector2 center, float radius)
+    {
+        for (int attempt = 0; attempt < 15; attempt++)
+        {
+            Vector2 candidate = center + Random.insideUnitCircle * radius;
+            bool walkable = grid == null || grid.IsWalkable(grid.WorldToCell(candidate));
+            if (walkable)
+            {
+                return candidate;
+            }
+        }
+
+        return center;
+    }
+
     /// <summary>Can the guard's whole body slide from one point to another without touching a wall?</summary>
     public bool HasClearPath(Vector2 from, Vector2 to)
     {

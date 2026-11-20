@@ -182,10 +182,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e97c1baf2142bfc43ae5709ac67f0105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GuardVision
-  nearRange: 3.5
-  nearAngle: 80
-  farRange: 7
-  farAngle: 50
+  nearRange: 2.5
+  nearAngle: 70
+  farRange: 5
+  farAngle: 40
 --- !u!114 &5518143352466790830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,8 +218,8 @@ MonoBehaviour:
   patrolPoints: []
   waitTime: 1
   patrolSpeed: 2
-  investigateSpeed: 2.5
-  chaseSpeed: 3.5
+  investigateSpeed: 2
+  chaseSpeed: 3
   turnSpeed: 360
   arriveDistance: 0.05
   bodyRadius: 0.45

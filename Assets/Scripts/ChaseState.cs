@@ -48,7 +48,7 @@ public class ChaseState : IGuardState
         bool arrived = guard.MoveTo(lastKnownPosition, guard.ChaseSpeed);
         if (arrived)
         {
-            guard.ChangeState(new InvestigateState(guard, lastKnownPosition));
+            guard.ChangeState(new SearchState(guard, lastKnownPosition));
         }
     }
 

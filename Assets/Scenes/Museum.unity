@@ -638,6 +638,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Guard2
       objectReference: {fileID: 0}
+    - target: {fileID: 7510879733694632282, guid: c25446e1cc983b6429fefa5219f820b5, type: 3}
+      propertyPath: patrolPoints.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510879733694632282, guid: c25446e1cc983b6429fefa5219f820b5, type: 3}
+      propertyPath: 'patrolPoints.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1901333258}
+    - target: {fileID: 7510879733694632282, guid: c25446e1cc983b6429fefa5219f820b5, type: 3}
+      propertyPath: 'patrolPoints.Array.data[1]'
+      value: 
+      objectReference: {fileID: 542603197}
     - target: {fileID: 8401589044712081993, guid: c25446e1cc983b6429fefa5219f820b5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 10
@@ -2512,6 +2524,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Guard
       objectReference: {fileID: 0}
+    - target: {fileID: 7510879733694632282, guid: c25446e1cc983b6429fefa5219f820b5, type: 3}
+      propertyPath: patrolPoints.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510879733694632282, guid: c25446e1cc983b6429fefa5219f820b5, type: 3}
+      propertyPath: 'patrolPoints.Array.data[0]'
+      value: 
+      objectReference: {fileID: 530402760}
+    - target: {fileID: 7510879733694632282, guid: c25446e1cc983b6429fefa5219f820b5, type: 3}
+      propertyPath: 'patrolPoints.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1539351469}
     - target: {fileID: 8401589044712081993, guid: c25446e1cc983b6429fefa5219f820b5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.14611

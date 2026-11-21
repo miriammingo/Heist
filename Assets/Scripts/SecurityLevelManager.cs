@@ -18,6 +18,10 @@ public class SecurityLevelManager : MonoBehaviour
     [Tooltip("Number of treasures that turns on HIGH ALERT.")]
     [SerializeField] private int highAlertAt = 3;
 
+    // NEW: the "HIGH ALERT!" text on screen (disabled until it is needed).
+    [Tooltip("UI object shown during HIGH ALERT.")]
+    [SerializeField] private GameObject highAlertBanner;
+
     private PlayerTreasureInventory thief;
 
     public bool IsHighAlert { get; private set; }
@@ -28,6 +32,12 @@ public class SecurityLevelManager : MonoBehaviour
         if (thief == null)
         {
             Debug.LogWarning("SecurityLevelManager: there is no Player in the scene.");
+        }
+
+        // NEW: the banner always starts hidden.
+        if (highAlertBanner != null)
+        {
+            highAlertBanner.SetActive(false);
         }
     }
 
@@ -45,6 +55,15 @@ public class SecurityLevelManager : MonoBehaviour
         if (thief != null)
         {
             thief.TreasureCollected -= HandleTreasureCollected;
+        }
+    }
+
+    // NEW: when the attempt ends (caught or escaped), hide the banner so it doesn't cover the result panel.
+    private void Update()
+    {
+        if (highAlertBanner != null && highAlertBanner.activeSelf && IsAttemptOver())
+        {
+            highAlertBanner.SetActive(false);
         }
     }
 
@@ -109,5 +128,18 @@ public class SecurityLevelManager : MonoBehaviour
     {
         IsHighAlert = true;
         Debug.Log("[SECURITY] HIGH ALERT!");
+
+        // NEW: show the banner.
+        if (highAlertBanner != null)
+        {
+            highAlertBanner.SetActive(true);
+        }
+    }
+
+    // NEW: reads Miriam's session manager (without changing it) to know if this attempt has finished.
+    private static bool IsAttemptOver()
+    {
+        HeistSessionManager session = HeistSessionManager.Instance;
+        return session != null && session.Outcome != HeistSessionManager.HeistOutcome.Playing;
     }
 }

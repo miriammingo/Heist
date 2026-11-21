@@ -97,6 +97,25 @@ public class HeistSessionManager : MonoBehaviour
         }
     }
 
+    public void RestartAttempt()
+    {
+        // Only restart if the player is still playing
+        if (Outcome != HeistOutcome.Playing)
+            return;
+
+        // Do not allow more than five attempts
+        if (IsLastAttempt)
+            return;
+
+        // Consume one attempt
+        CurrentAttempt++;
+
+        Debug.Log("Restarting attempt: " + CurrentAttempt);
+
+        // Room memory is NOT cleared
+        ReloadMuseum();
+    }
+
     public void StartNewHeist()
     {
         CurrentAttempt = 1;
